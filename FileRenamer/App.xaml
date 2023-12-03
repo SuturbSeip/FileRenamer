@@ -1,0 +1,378 @@
+﻿<Application
+    x:Class="FileRenamer.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:FileRenamer"
+    StartupUri="MainWindow.xaml">
+    <Application.Resources>
+
+        <SolidColorBrush x:Key="ButtonLtGray">#F1F1F1</SolidColorBrush>
+        <SolidColorBrush x:Key="ButtonMidGray">#E9E9E9</SolidColorBrush>
+        <SolidColorBrush x:Key="ButtonGray">#B8B8B8</SolidColorBrush>
+        <!--  #F5F5F5  -->
+
+        <!--  !!!!!!!!  -->
+        <!--  TextBlocks  -->
+        <!--  !!!!!!!!  -->
+
+        <Style x:Key="TryAgain" TargetType="{x:Type TextBlock}">
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+
+        <!--<Style TargetType="{x:Type DataGridCell}">
+            <Setter Property="Background" Value="Magenta"/>
+        </Style>-->
+
+        <!--  !!!!!!!!  -->
+        <!--  TextBoxes  -->
+        <!--  !!!!!!!!  -->
+
+        <!--  TextBoxBase  -->
+
+        <ControlTemplate x:Key="TextBoxBaseTemplate" TargetType="{x:Type TextBoxBase}">
+            <Border
+                x:Name="border"
+                Margin="2"
+                VerticalAlignment="Stretch"
+                Background="{StaticResource ButtonLtGray}"
+                BorderThickness="0"
+                SnapsToDevicePixels="True">
+                <ScrollViewer
+                    x:Name="PART_ContentHost"
+                    VerticalAlignment="Center"
+                    Focusable="false"
+                    HorizontalScrollBarVisibility="Hidden"
+                    VerticalScrollBarVisibility="Hidden" />
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsKeyboardFocused" Value="true">
+                    <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource ButtonGray}" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="border" Property="Background" Value="{StaticResource ButtonMidGray}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="TextBoxTemplate" TargetType="{x:Type TextBox}">
+            <Setter Property="Template" Value="{DynamicResource TextBoxBaseTemplate}" />
+            <Setter Property="SelectionBrush" Value="{StaticResource ButtonGray}" />
+        </Style>
+
+        <Style BasedOn="{StaticResource TextBoxTemplate}" TargetType="{x:Type TextBox}" />
+
+        <Style
+            x:Key="CustomDataGridTextBox"
+            BasedOn="{StaticResource TextBoxTemplate}"
+            TargetType="{x:Type TextBox}">
+            <Setter Property="CaretBrush" Value="Black" />
+        </Style>
+
+
+        <!--<Style TargetType="{x:Type DataGridCell}">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Background" Value="Green"/>
+        </Style>-->
+
+        <!--  !!!!!!!  -->
+        <!--  Buttons  -->
+        <!--  !!!!!!!  -->
+
+        <Style x:Key="ButtonTemplate" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{StaticResource ButtonLtGray}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Width" Value="75" />
+            <Setter Property="Margin" Value="2" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{TemplateBinding Content}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource ButtonMidGray}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style BasedOn="{StaticResource ButtonTemplate}" TargetType="{x:Type Button}" />
+
+        <Style
+            x:Key="DataGridHeaderButton"
+            BasedOn="{StaticResource ButtonTemplate}"
+            TargetType="{x:Type Button}" />
+
+        <!--  !!!!!!!!  -->
+        <!--  DataGrid  -->
+        <!--  !!!!!!!!  -->
+
+        <!--  DataGrid Column Header  -->
+        <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Border Background="White">
+                            <Button
+                                Width="{TemplateBinding Width}"
+                                Content="{TemplateBinding Content}"
+                                Style="{StaticResource DataGridHeaderButton}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <!--<Style TargetType="{x:Type ToggleButton}">
+            <Setter Property="Background" Value="{StaticResource ButtonLtGray}"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Red"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>-->
+
+        <Style TargetType="{x:Type ToggleButton}">
+            <Setter Property="Background" Value="{StaticResource ButtonLtGray}" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="BorderBrush" Value="Red" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border
+                            x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="true">
+                            <ContentPresenter
+                                x:Name="contentPresenter"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Focusable="False"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" Value="{StaticResource ButtonMidGray}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="border" Property="BorderBrush" Value="black " />
+                                <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false" />
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="CustomComboBoxTemplate" TargetType="{x:Type ComboBox}">
+            <Border
+                x:Name="Border"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}">
+                <Grid x:Name="Grid">
+                    <ToggleButton
+                        x:Name="ToggleButton"
+                        BorderBrush="Transparent"
+                        BorderThickness="0"
+                        ClickMode="Press"
+                        IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                        <TextBlock
+                            x:Name="TextBlock"
+                            Grid.Column="0"
+                            Style="{StaticResource TryAgain}"
+                            Text="{TemplateBinding Text}" />
+                    </ToggleButton>
+                    <ContentPresenter
+                        x:Name="ContentSite"
+                        Margin="5,0,30,0"
+                        Content="{TemplateBinding SelectionBoxItem}"
+                        ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                        ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                        IsHitTestVisible="False" />
+                    <Popup
+                        x:Name="Popup"
+                        Width="{TemplateBinding Width}"
+                        AllowsTransparency="True"
+                        IsOpen="{TemplateBinding IsDropDownOpen}"
+                        Placement="Bottom"
+                        PlacementTarget="{Binding ElementName=ToggleButton}">
+                        <Border
+                            x:Name="DropDownBorder"
+                            Background="White"
+                            BorderBrush="Gray"
+                            BorderThickness="1">
+                            <ScrollViewer>
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Border>
+                    </Popup>
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <!--<Setter TargetName="Arrow" Property="Fill" Value="Gray" />-->
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True" />
+                <Trigger Property="IsDropDownOpen" Value="True" />
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="True" />
+                            <TextBlock Text="Test" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="Template" Value="{StaticResource CustomComboBoxTemplate}" />
+            <Setter Property="Text" Value="Extension" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Margin" Value="2" />
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource ButtonMidGray}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="EditingElementStyle" TargetType="{x:Type DataGridCell}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <TextBox />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+        <!--<Style x:Key="extensionFiltersHeader" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Border Background="White">
+                            <ComboBox x:Name="extensionComboBox" Width="{TemplateBinding Width}"
+                                      ItemsSource="{Binding DataContext.FileExtension, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+
+        <Style x:Key="extensionFiltersHeader" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Border Background="White">
+                            <ComboBox
+                                x:Name="extensionComboBox"
+                                Margin="0"
+                                Width="{TemplateBinding Width}"
+                                ItemsSource="{Binding DataContext.Extensions, RelativeSource={RelativeSource AncestorType=DataGrid}}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                IsChecked="{Binding IsActive}" />
+                                            <TextBlock Width="100" Text="{Binding ExtensionFilter}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="ComboBoxItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
+                            </ComboBox>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--  DataGrid Cell  -->
+        <Style TargetType="{x:Type DataGridCell}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="{StaticResource ButtonLtGray}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Border
+                            Margin="1"
+                            Padding="2"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True">
+                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource ButtonMidGray}" />
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                    <Setter Property="BorderBrush" Value="{StaticResource ButtonGray}" />
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsSelected" Value="true" />
+                        <Condition Property="Selector.IsSelectionActive" Value="false" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="{StaticResource ButtonMidGray}" />
+                </MultiTrigger>
+                <Trigger Property="IsReadOnly" Value="True">
+                    <Setter Property="Foreground" Value="DarkSlateGray" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource ButtonMidGray}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--  DataGrid  -->
+        <Style TargetType="{x:Type DataGrid}">
+            <Setter Property="GridLinesVisibility" Value="None" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="AutoGenerateColumns" Value="False" />
+            <Setter Property="HeadersVisibility" Value="Column" />
+        </Style>
+
+    </Application.Resources>
+</Application>

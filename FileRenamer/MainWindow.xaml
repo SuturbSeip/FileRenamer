@@ -1,0 +1,85 @@
+﻿<Window
+    x:Class="FileRenamer.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FileRenamer"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
+    <Grid Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox
+                x:Name="folderPath"
+                Template="{DynamicResource TextBoxBaseTemplate}"
+                Text="Directory path" />
+            <Button
+                x:Name="browseButton"
+                Grid.Column="1"
+                Click="BrowseButton_Click"
+                Content="Browse" />
+        </Grid>
+
+        <DataGrid
+            x:Name="filesList"
+            Grid.Row="1">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn x:Name="isSelectedBox" Binding="{Binding Selected}" Width="25"/>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding FileName}"
+                    ElementStyle="{StaticResource TryAgain}"
+                    Header="File name"
+                    IsReadOnly="True" />
+                <DataGridTextColumn
+                    HeaderStyle="{StaticResource extensionFiltersHeader}"
+                    Width="70"
+                    Binding="{Binding Extension}"
+                    ElementStyle="{StaticResource TryAgain}"
+                    Header="Extension"
+                    IsReadOnly="True"/>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding NewName}"
+                    EditingElementStyle="{StaticResource CustomDataGridTextBox}"
+                    ElementStyle="{StaticResource TryAgain}"
+                    Header="New name" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Row="2" Background="{StaticResource ButtonLtGray}" Margin="2">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch"
+                Background="white"
+                Orientation="Horizontal">
+                <Button
+                    Name="copyNamesButton"
+                    Click="copyNamesButton_Click"
+                    Content="Copy &gt;&gt;"
+                    Margin="4 0 2 0"/>
+                <Button
+                    x:Name="renameButton"
+                    Click="renameButton_Click"
+                    Content="Rename all" 
+                    Margin="2 0 4 0"/>
+            </StackPanel>
+        </Grid>
+
+
+
+    </Grid>
+</Window>
