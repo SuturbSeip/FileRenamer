@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FileRenamer
+﻿namespace FileRenamer
 {
     public class ExtensionFilters
     {
-        public string ExtensionFilter { get; set; }
+        public string ExtensionOfFile { get; set; }
         public bool IsActive { get; set; }
 
-        public ExtensionFilters(string extensionFilter) 
+        public ExtensionFilters(string extensionOfFile)
         {
-            ExtensionFilter = extensionFilter;
+            ExtensionOfFile = extensionOfFile;
             IsActive = true;
         }
     }

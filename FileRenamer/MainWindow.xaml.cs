@@ -16,7 +16,7 @@ namespace FileRenamer
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window /*INotifyPropertyChanged*/
     {
         List<string> files = new List<string>();
         private ObservableCollection<FileInfo> fileNames = new ObservableCollection<FileInfo>();
@@ -29,33 +29,35 @@ namespace FileRenamer
                 if (fileNames != value)
                 {
                     fileNames = value;
-                    OnPropertyChanged(nameof(FileNames));
+                    //OnPropertyChanged(nameof(FileNames));
                 }
             }
         }
 
-        private ObservableCollection<ExtensionFilters> extensions = new ObservableCollection<ExtensionFilters>()
-        {
-            new ExtensionFilters(".xlsx"),
-            new ExtensionFilters(".test"),
-        };
+        private ObservableCollection<ExtensionFilters> extensions = new ObservableCollection<ExtensionFilters>();
+
 
         public ObservableCollection<ExtensionFilters> Extensions
         {
             get { return extensions; }
             set
             {
-
+                if (extensions != value)
+                {
+                    extensions = value;
+                    //OnPropertyChanged(nameof(Extensions));
+                    //ReloadFilesNameList();
+                }
             }
         }
 
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        //public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        //protected virtual void OnPropertyChanged(string propertyName)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
 
         public MainWindow()
         {
@@ -73,16 +75,21 @@ namespace FileRenamer
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
             files.Clear();
-            fileNames.Clear();
             var fileArray = Directory.GetFiles(folderPath.Text.ToString());
             foreach (var file in fileArray) { files.Add(file); }
+
             foreach (var file in files)
             {
-                var path = System.IO.Path.GetDirectoryName(file);
-                var fileName = System.IO.Path.GetFileNameWithoutExtension(file);
                 var fileExtension = System.IO.Path.GetExtension(file);
-                fileNames.Add(new FileInfo(path, fileName, fileExtension));
+                var extensionFilter = new ExtensionFilters(fileExtension);
+                if (!Extensions.Any(element => element.ExtensionOfFile == extensionFilter.ExtensionOfFile))
+                {
+                    Extensions.Add(extensionFilter);
+                }
             }
+            ReloadFilesNameList();
+
+
         }
 
         private void newNames_CellEditEnding(object sender, System.Windows.Controls.DataGridCellEditEndingEventArgs e)
@@ -126,13 +133,25 @@ namespace FileRenamer
 
         }
 
-        //private void isSelectedBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    CheckBox? checkBox = sender as CheckBox;
-        //    if (checkBox.IsChecked==true)
-        //    {
+        private void ReloadFilesNameList()
+        {
+            fileNames.Clear();
+            foreach (var file in files)
+            {
+                var path = System.IO.Path.GetDirectoryName(file);
+                var fileName = System.IO.Path.GetFileNameWithoutExtension(file);
+                var fileExtension = System.IO.Path.GetExtension(file);
+                foreach (var extension in Extensions)
+                {
+                    if (extension.ExtensionOfFile.Equals(fileExtension) && extension.IsActive)
+                        fileNames.Add(new FileInfo(path, fileName, fileExtension));
+                }
+            }
+        }
 
-        //    }
-        //}
+        private void extensionComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            ReloadFilesNameList();
+        }
     }
 }

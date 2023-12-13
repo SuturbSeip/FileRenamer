@@ -15,7 +15,7 @@
         <!--  TextBlocks  -->
         <!--  !!!!!!!!  -->
 
-        <Style x:Key="TryAgain" TargetType="{x:Type TextBlock}">
+        <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
             <Setter Property="Padding" Value="2" />
             <Setter Property="Margin" Value="0"/>
         </Style>
@@ -102,6 +102,9 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="{StaticResource ButtonMidGray}" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="{StaticResource ButtonGray}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -199,7 +202,7 @@
                         <TextBlock
                             x:Name="TextBlock"
                             Grid.Column="0"
-                            Style="{StaticResource TryAgain}"
+                            Style="{StaticResource TextBlockStyle}"
                             Text="{TemplateBinding Text}" />
                     </ToggleButton>
                     <ContentPresenter
@@ -288,7 +291,7 @@
             </Setter>
         </Style>-->
 
-        <Style x:Key="extensionFiltersHeader" TargetType="{x:Type DataGridColumnHeader}">
+        <!--<Style x:Key="extensionFiltersHeader" TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
@@ -305,7 +308,7 @@
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 IsChecked="{Binding IsActive}" />
-                                            <TextBlock Width="100" Text="{Binding ExtensionFilter}"/>
+                                            <TextBlock Width="100" Text="{Binding ExtensionOfFile}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
@@ -319,7 +322,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
+        </Style>-->
 
         <!--  DataGrid Cell  -->
         <Style TargetType="{x:Type DataGridCell}">

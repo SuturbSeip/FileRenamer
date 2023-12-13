@@ -9,6 +9,42 @@
     Width="800"
     Height="450"
     mc:Ignorable="d">
+    <Window.Resources>
+        <Style x:Key="extensionFiltersHeader" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Border Background="White">
+                            <ComboBox
+                                DropDownClosed="extensionComboBox_DropDownClosed"
+                                x:Name="extensionComboBox"
+                                Width="{TemplateBinding Width}"
+                                Margin="0"
+                                ItemsSource="{Binding DataContext.Extensions, RelativeSource={RelativeSource AncestorType=DataGrid}}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                IsChecked="{Binding IsActive}" />
+                                            <TextBlock Width="100" Text="{Binding ExtensionOfFile}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="ComboBoxItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
+                            </ComboBox>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid Margin="2">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -33,34 +69,38 @@
                 Content="Browse" />
         </Grid>
 
-        <DataGrid
-            x:Name="filesList"
-            Grid.Row="1">
+        <DataGrid x:Name="filesList" Grid.Row="1">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn x:Name="isSelectedBox" Binding="{Binding Selected}" Width="25"/>
+                <DataGridCheckBoxColumn
+                    x:Name="isSelectedBox"
+                    Width="25"
+                    Binding="{Binding Selected}" />
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding FileName}"
-                    ElementStyle="{StaticResource TryAgain}"
+                    ElementStyle="{StaticResource TextBlockStyle}"
                     Header="File name"
                     IsReadOnly="True" />
                 <DataGridTextColumn
-                    HeaderStyle="{StaticResource extensionFiltersHeader}"
                     Width="70"
                     Binding="{Binding Extension}"
-                    ElementStyle="{StaticResource TryAgain}"
+                    ElementStyle="{StaticResource TextBlockStyle}"
                     Header="Extension"
-                    IsReadOnly="True"/>
+                    HeaderStyle="{StaticResource extensionFiltersHeader}"
+                    IsReadOnly="True" />
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding NewName}"
                     EditingElementStyle="{StaticResource CustomDataGridTextBox}"
-                    ElementStyle="{StaticResource TryAgain}"
+                    ElementStyle="{StaticResource TextBlockStyle}"
                     Header="New name" />
             </DataGrid.Columns>
         </DataGrid>
 
-        <Grid Grid.Row="2" Background="{StaticResource ButtonLtGray}" Margin="2">
+        <Grid
+            Grid.Row="2"
+            Margin="2"
+            Background="{StaticResource ButtonLtGray}">
             <StackPanel
                 HorizontalAlignment="Center"
                 VerticalAlignment="Stretch"
@@ -68,14 +108,14 @@
                 Orientation="Horizontal">
                 <Button
                     Name="copyNamesButton"
+                    Margin="4,0,2,0"
                     Click="copyNamesButton_Click"
-                    Content="Copy &gt;&gt;"
-                    Margin="4 0 2 0"/>
+                    Content="Copy &gt;&gt;" />
                 <Button
                     x:Name="renameButton"
+                    Margin="2,0,4,0"
                     Click="renameButton_Click"
-                    Content="Rename all" 
-                    Margin="2 0 4 0"/>
+                    Content="Rename all" />
             </StackPanel>
         </Grid>
 
