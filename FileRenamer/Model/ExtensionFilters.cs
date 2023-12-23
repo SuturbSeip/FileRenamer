@@ -5,10 +5,10 @@
         public string ExtensionOfFile { get; set; }
         public bool IsActive { get; set; }
 
-        public ExtensionFilters(string extensionOfFile)
+        public ExtensionFilters(string extensionOfFile, bool isAvite=true)
         {
             ExtensionOfFile = extensionOfFile;
-            IsActive = true;
+            IsActive = isAvite;
         }
     }
 }

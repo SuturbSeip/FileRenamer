@@ -307,8 +307,8 @@
                                             <CheckBox
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                IsChecked="{Binding IsActive}" />
-                                            <TextBlock Width="100" Text="{Binding ExtensionOfFile}"/>
+                                                IsChecked="{Binding IsActive, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                                            <TextBlock Width="100" Text="{Binding ExtensionOfFile}" IsEnabled="False"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>

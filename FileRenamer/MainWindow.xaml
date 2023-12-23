@@ -4,11 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:FileRenamer"
+    xmlns:vm="clr-namespace:FileRenamer.ViewModel"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="MainWindow"
     Width="800"
     Height="450"
     mc:Ignorable="d">
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
     <Window.Resources>
         <Style x:Key="extensionFiltersHeader" TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="Template">
@@ -16,7 +20,6 @@
                     <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
                         <Border Background="White">
                             <ComboBox
-                                DropDownClosed="extensionComboBox_DropDownClosed"
                                 x:Name="extensionComboBox"
                                 Width="{TemplateBinding Width}"
                                 Margin="0"
@@ -27,7 +30,7 @@
                                             <CheckBox
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                IsChecked="{Binding IsActive}" />
+                                                IsChecked="{Binding IsActive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                             <TextBlock Width="100" Text="{Binding ExtensionOfFile}" />
                                         </StackPanel>
                                     </DataTemplate>
@@ -61,15 +64,15 @@
             <TextBox
                 x:Name="folderPath"
                 Template="{DynamicResource TextBoxBaseTemplate}"
-                Text="Directory path" />
+                Text="{Binding FolderPath}" />
             <Button
                 x:Name="browseButton"
                 Grid.Column="1"
-                Click="BrowseButton_Click"
+                Command="{Binding Browse}"
                 Content="Browse" />
         </Grid>
 
-        <DataGrid x:Name="filesList" Grid.Row="1">
+        <DataGrid x:Name="filesList" Grid.Row="1" ItemsSource="{Binding FileNames}" >
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn
                     x:Name="isSelectedBox"
@@ -109,12 +112,10 @@
                 <Button
                     Name="copyNamesButton"
                     Margin="4,0,2,0"
-                    Click="copyNamesButton_Click"
                     Content="Copy &gt;&gt;" />
                 <Button
                     x:Name="renameButton"
                     Margin="2,0,4,0"
-                    Click="renameButton_Click"
                     Content="Rename all" />
             </StackPanel>
         </Grid>
